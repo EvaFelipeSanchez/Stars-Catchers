@@ -7,8 +7,8 @@ public class VRGaze : MonoBehaviour
 {
     public Image imgGaze;
     public float totalTime = 2;
-    bool gvrStatus;
-    float gvrTimer;
+    public bool gvrStatus = false;
+    public float gvrTimer = 0;
 
     public int distanceOfRay  = 10;
     private RaycastHit _hit;
@@ -26,6 +26,7 @@ public class VRGaze : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (gvrStatus)
         {
             gvrTimer += Time.deltaTime;
@@ -34,9 +35,14 @@ public class VRGaze : MonoBehaviour
 
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 
-        if(Physics.Raycast(ray, out _hit, distanceOfRay)) {
+        //Debug.Log("fill: " + imgGaze.fillAmount + " hit: " + _hit.transform.CompareTag("PointsStar") + " Status: " + gvrStatus);
+        //Debug.Log( " Status: " + gvrStatus);
+        Debug.Log(" Ray: " + Physics.Raycast(ray, out _hit, distanceOfRay)) ;
 
-           if(imgGaze.fillAmount == 1 && _hit.transform.CompareTag("Teleport"))
+        if (Physics.Raycast(ray, out _hit, distanceOfRay)) {
+
+
+            if (imgGaze.fillAmount == 1 && _hit.transform.CompareTag("Teleport"))
             {
                 _hit.transform.gameObject.GetComponent<Teleport>().TeleportPlayer();
             }
@@ -47,11 +53,12 @@ public class VRGaze : MonoBehaviour
                 _hit.transform.gameObject.GetComponent<Rotate>().ChangeSpin();
                 gvrStatus = false;
             }
-
+            
+            
+            Debug.Log("fill: " + imgGaze.fillAmount + " hit: " + _hit.transform.CompareTag("PointsStar") + " Status: " + gvrStatus);
 
             if (imgGaze.fillAmount == 1 && _hit.transform.CompareTag("PointsStar") && gvrStatus)
             {
-            
                 _hit.transform.gameObject.GetComponent<PointsStar>().Destroy();
                 counter++;
                 countertext.text = counter.ToString();
