@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.Events;
 
 public class VRGazeMenu : MonoBehaviour
 {
-    public Image imgGaze;
+    public Image imgCircle;
+    public UnityEvent GVRClick;
+
     public float totalTime = 2;
     bool gvrStatus;
-    float gvrTimer;
+    public float gvrTimer;
 
-    public string sceneName;
-
-    public int distanceOfRay = 10;
-    private RaycastHit _hit;
+    public AudioSource clicksound;
 
 
     // Start is called before the first frame update
@@ -23,7 +22,7 @@ public class VRGazeMenu : MonoBehaviour
     {
         gvrStatus = false;
         gvrTimer = 0;
-        imgGaze.fillAmount = 0;
+        imgCircle.fillAmount = 0;
     }
 
     // Update is called once per frame
@@ -32,12 +31,19 @@ public class VRGazeMenu : MonoBehaviour
         if (gvrStatus)
         {
             gvrTimer += Time.deltaTime;
-            imgGaze.fillAmount = gvrTimer / totalTime;
+            imgCircle.fillAmount = gvrTimer / totalTime;
         }
 
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+        if(gvrTimer > totalTime)
+        {
+            clicksound.Play();
+            GVRClick.Invoke();
+            
+        }
 
-        if (Physics.Raycast(ray, out _hit, distanceOfRay))
+        //Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+
+        /*if (Physics.Raycast(ray, out _hit, distanceOfRay))
         {
 
             if (imgGaze.fillAmount == 1 && _hit.transform.CompareTag("Menu1"))
@@ -53,11 +59,13 @@ public class VRGazeMenu : MonoBehaviour
             }
 
         }
+        */
     }
 
     public void GVROn()
     {
         gvrStatus = true;
+        
 
     }
 
@@ -65,6 +73,6 @@ public class VRGazeMenu : MonoBehaviour
     {
         gvrStatus = false;
         gvrTimer = 0;
-        imgGaze.fillAmount = 0;
+        imgCircle.fillAmount = 0;
     }
 }

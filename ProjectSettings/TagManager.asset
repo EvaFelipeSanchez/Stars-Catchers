@@ -9,6 +9,9 @@ TagManager:
   - PointsStar
   - Menu1
   - Menu2
+  - PointsStar2
+  - PointsStar3
+  - PointsStar4
   layers:
   - Default
   - TransparentFX

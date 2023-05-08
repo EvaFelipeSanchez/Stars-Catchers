@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-public class SceneCtrl : MonoBehaviour
+public class SceneChanger : MonoBehaviour
 {
-  public void ChangeScene(string sceneName)
+
+
+    public void LoadScene(string sceneName)
     {
-        SceneManager.LoadScene(sceneName); 
+        SceneManager.LoadScene(sceneName);
     }
 
-  public void QuitApp()
+    public void QuitApp()
     {
         Application.Quit();
     }
+
+
+
 }
