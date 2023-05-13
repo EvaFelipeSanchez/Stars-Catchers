@@ -16,11 +16,13 @@ public class VRGaze : MonoBehaviour
     public int distanceOfRay  = 10;
     private RaycastHit _hit;
 
-    private int counter;
+    public int counter;
     public Text countertext;
 
     public AudioSource grabsound;
     public AudioSource failsound;
+
+    public Timer timeleft;
 
 
     // Start is called before the first frame update
@@ -40,6 +42,7 @@ public class VRGaze : MonoBehaviour
         }
 
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+        countertext.text = counter.ToString();
 
         //Debug.Log( " Status: " + gvrStatus);
         //Debug.Log(" Ray: " + ray);
@@ -47,19 +50,6 @@ public class VRGaze : MonoBehaviour
 
         if (Physics.Raycast(ray, out _hit, distanceOfRay)) {
 
-
-            /*if (imgGaze.fillAmount == 1 && _hit.transform.CompareTag("Teleport"))
-            {
-                _hit.transform.gameObject.GetComponent<Teleport>().TeleportPlayer();
-            }
-
-
-            if (imgGaze.fillAmount == 1 && _hit.transform.CompareTag("Rotate") && gvrStatus)
-            {
-                _hit.transform.gameObject.GetComponent<Rotate>().ChangeSpin();
-                gvrStatus = false;
-            }
-            */
 
             /*if (imgGaze.fillAmount == 1 && _hit.transform.CompareTag("Menu1"))
             {
@@ -69,77 +59,79 @@ public class VRGaze : MonoBehaviour
                 imgGaze.fillAmount = 0;
             }
 
-            if (imgGaze.fillAmount == 1 && _hit.transform.CompareTag("Menu2"))
-            {
-                _hit.transform.gameObject.GetComponent<SceneCtrl>().QuitApp();
-                gvrStatus = false;
-                gvrTimer = 0;
-                imgGaze.fillAmount = 0;
-            }
-            */
-
+           */
             //Debug.Log("fill: " + imgGaze.fillAmount + " hit: " + _hit.transform.CompareTag("PointsStar") + " Status: " + gvrStatus);
 
             if (imgGaze.fillAmount == 1 && _hit.transform.CompareTag("PointsStar") && gvrStatus)
             {
-                _hit.transform.gameObject.GetComponent<PointsStar>().Destroy();
-                counter++;
-                countertext.text = counter.ToString();
-                grabsound.Play();
+                if (timeleft.TimeLeft > 0.0f)
+                {
+                    _hit.transform.gameObject.GetComponent<PointsStar>().Destroy();
 
-                gvrStatus = false;
-                gvrTimer = 0;
-                imgGaze.fillAmount = 0;
-                
+                    counter++;
+                    countertext.text = counter.ToString();
+                    grabsound.Play();
 
+                    gvrStatus = false;
+                    gvrTimer = 0;
+                    imgGaze.fillAmount = 0;
+
+                }
             }
 
             if (imgGaze.fillAmount == 1 && _hit.transform.CompareTag("PointsStar2") && gvrStatus)
             {
-                _hit.transform.gameObject.GetComponent<PointsStar>().Destroy();
-                counter++;
-                counter++;
-                countertext.text = counter.ToString();
-                grabsound.Play();
+                if (timeleft.TimeLeft > 0.0f)
+                {
+                    _hit.transform.gameObject.GetComponent<PointsStar>().Destroy();
+                    counter++;
+                    counter++;
+                    countertext.text = counter.ToString();
+                    grabsound.Play();
 
-                gvrStatus = false;
-                gvrTimer = 0;
-                imgGaze.fillAmount = 0;
-
+                    gvrStatus = false;
+                    gvrTimer = 0;
+                    imgGaze.fillAmount = 0;
+                }
             }
 
             if (imgGaze.fillAmount == 1 && _hit.transform.CompareTag("PointsStar3") && gvrStatus)
             {
-                _hit.transform.gameObject.GetComponent<PointsStar>().Destroy();
-                counter++;
-                counter++;
-                counter++;
-                countertext.text = counter.ToString();
-                grabsound.Play();
+                if (timeleft.TimeLeft > 0.0f)
+                {
+                    _hit.transform.gameObject.GetComponent<PointsStar>().Destroy();
+                    counter++;
+                    counter++;
+                    counter++;
+                    countertext.text = counter.ToString();
+                    grabsound.Play();
 
-                gvrStatus = false;
-                gvrTimer = 0;
-                imgGaze.fillAmount = 0;
-
+                    gvrStatus = false;
+                    gvrTimer = 0;
+                    imgGaze.fillAmount = 0;
+                }
             }
 
 
             if (imgGaze.fillAmount == 1 && _hit.transform.CompareTag("PointsStar4") && gvrStatus)
             {
-                _hit.transform.gameObject.GetComponent<PointsStar>().Destroy();
-                counter--;
-                counter--;
-                counter--;
-                counter--;
-                counter--;
-                countertext.text = counter.ToString();
-                failsound.Play();
+                if (timeleft.TimeLeft > 0.0f)
+                {
+                    _hit.transform.gameObject.GetComponent<PointsStar>().Destroy();
+                    counter--;
+                    counter--;
+                    counter--;
+                    counter--;
+                    counter--;
+                    countertext.text = counter.ToString();
+                    failsound.Play();
 
-                gvrStatus = false;
-                gvrTimer = 0;
-                imgGaze.fillAmount = 0;
-
+                    gvrStatus = false;
+                    gvrTimer = 0;
+                    imgGaze.fillAmount = 0;
+                }
             }
+
 
         }
     }
@@ -156,4 +148,5 @@ public class VRGaze : MonoBehaviour
         gvrTimer = 0;
         imgGaze.fillAmount = 0;
     }
+
 }

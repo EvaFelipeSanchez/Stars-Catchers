@@ -6,27 +6,34 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    public float TimeLeft;
+    public float TimeLeft = 10;
     public bool timerOn = false;
 
     public float StartTime = 30.0f;
 
-
+  
 
     public Text TimerTxt;
     public Text BackTxt;
-
+    public CanvasController canvas1;
+    public CanvasController canvas2;
+    [SerializeField] HighScore score;
 
     void Start()
     {
-        if(StartTime <= 0.0f){
-            timerOn = true;
-        }
-     
+
+        canvas1.ShowCanvas();
+        canvas2.HideCanvas();
+
     }
     // Update is called once per frame
     void Update()
     {
+        if (StartTime <= 0.0f)
+        {
+            timerOn = true;
+        }
+
         if (timerOn)
         {
             TimeLeft -= Time.deltaTime;
@@ -37,6 +44,14 @@ public class Timer : MonoBehaviour
         {
             StartTime -= Time.deltaTime;
             updateBack();
+        }
+
+        if(TimeLeft <= 0.0f)
+        {
+            score.updatehigh();
+            canvas2.ShowCanvas();
+            canvas1.HideCanvas();
+
         }
 
 
@@ -54,5 +69,8 @@ public class Timer : MonoBehaviour
     {
         BackTxt.text = StartTime.ToString("f0");
     }
+
+
+    
 
 }

@@ -8,6 +8,8 @@ public class SpawnObject : MonoBehaviour
     public GameObject Starprefab2;
     public GameObject Starprefab3;
     public GameObject Starprefab4;
+
+
     public int counterint = 0;
 
     public float respawnTime = 1.0f;
@@ -19,26 +21,14 @@ public class SpawnObject : MonoBehaviour
     public Vector3 size;
 
     public float StartTime = 30.0f;
-    public bool timerOn = false;
+    public bool timerOn = true;
+
+    public Timer timeleft;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (StartTime <= 0.0f)
-        {
-            timerOn = true;
-        }
-
-        if (timerOn)
-        {
-            StartCoroutine(starsWave1());
-            StartCoroutine(starsWave2());
-            StartCoroutine(starsWave3());
-            StartCoroutine(starsWave4());
-        }
-
-
-
+        timerOn = true;
     }
 
     // Update is called once per frame
@@ -53,6 +43,42 @@ public class SpawnObject : MonoBehaviour
         {
             StartTime -= Time.deltaTime;
         }
+
+        if (StartTime <= 0.0f)
+        {
+
+            if (timerOn)
+            {
+               
+                StartCoroutine(starsWave1());
+                StartCoroutine(starsWave2());
+                StartCoroutine(starsWave3());
+                StartCoroutine(starsWave4());
+                
+                timerOn = false;
+            }
+        }
+
+        if (timeleft.TimeLeft <= 0.0f)
+        {
+   
+            StartCoroutine(DestroyAllInstances1());
+            StartCoroutine(DestroyAllInstances2());
+            StartCoroutine(DestroyAllInstances3());
+            StartCoroutine(DestroyAllInstances4());
+        }
+
+        if (StartTime > 0.0f)
+        {
+            StartCoroutine(DestroyAllInstances1());
+            StartCoroutine(DestroyAllInstances2());
+            StartCoroutine(DestroyAllInstances3());
+            StartCoroutine(DestroyAllInstances4());
+        }
+
+
+
+    }
 
 
 
@@ -98,7 +124,7 @@ public class SpawnObject : MonoBehaviour
     IEnumerator starsWave1()
     {
 
-         while (true)
+         while (timeleft.TimeLeft > 0.0f)
             {
                 yield return new WaitForSeconds(respawnTime);
                 SpawnStar();
@@ -109,18 +135,20 @@ public class SpawnObject : MonoBehaviour
     IEnumerator starsWave2()
     {
 
-            while (true)
+            while (timeleft.TimeLeft > 0.0f)
             {
                 yield return new WaitForSeconds(respawnTime2);
                 SpawnStar2();
             }
+
+
         
     }
 
     IEnumerator starsWave3()
     {
 
-            while (true)
+            while (timeleft.TimeLeft > 0.0f)
             {
                 yield return new WaitForSeconds(respawnTime3);
                 SpawnStar3();
@@ -131,13 +159,76 @@ public class SpawnObject : MonoBehaviour
     IEnumerator starsWave4()
     {
 
-            while (true)
+            while (timeleft.TimeLeft > 0.0f)
             {
                 yield return new WaitForSeconds(respawnTime4);
                 SpawnStar4();
             }
         
     }
+
+ IEnumerator DestroyAllInstances1()
+    {
+        yield return null;  // Espera un frame para asegurarte de que todas las instancias estén activas
+
+        GameObject[] instances1 = GameObject.FindObjectsOfType<GameObject>();  // Encuentra todas las instancias de GameObject en la escena
+
+        foreach (GameObject instance1 in instances1)
+        {
+            if (instance1 != this.gameObject && instance1.name == Starprefab.name + "(Clone)")
+            {
+                Destroy(instance1);  // Destruye la instancia si cumple con las condiciones
+            }
+        }
+    }
+
+    IEnumerator DestroyAllInstances2()
+    {
+        yield return null;  // Espera un frame para asegurarte de que todas las instancias estén activas
+
+        GameObject[] instances2 = GameObject.FindObjectsOfType<GameObject>();  // Encuentra todas las instancias de GameObject en la escena
+
+        foreach (GameObject instance2 in instances2)
+        {
+            if (instance2 != this.gameObject && instance2.name == Starprefab2.name + "(Clone)")
+            {
+                Destroy(instance2);  // Destruye la instancia si cumple con las condiciones
+            }
+        }
+    }
+
+    IEnumerator DestroyAllInstances3()
+    {
+        yield return null;  // Espera un frame para asegurarte de que todas las instancias estén activas
+
+        GameObject[] instances3 = GameObject.FindObjectsOfType<GameObject>();  // Encuentra todas las instancias de GameObject en la escena
+
+        foreach (GameObject instance3 in instances3)
+        {
+            if (instance3 != this.gameObject && instance3.name == Starprefab3.name + "(Clone)")
+            {
+                Destroy(instance3);  // Destruye la instancia si cumple con las condiciones
+            }
+        }
+    }
+
+    IEnumerator DestroyAllInstances4()
+    {
+        yield return null;  // Espera un frame para asegurarte de que todas las instancias estén activas
+
+        GameObject[] instances4 = GameObject.FindObjectsOfType<GameObject>();  // Encuentra todas las instancias de GameObject en la escena
+
+        foreach (GameObject instance4 in instances4)
+        {
+            if (instance4 != this.gameObject && instance4.name == Starprefab4.name + "(Clone)")
+            {
+                Destroy(instance4);  // Destruye la instancia si cumple con las condiciones
+            }
+        }
+    }
+
+
+
 
 
 
